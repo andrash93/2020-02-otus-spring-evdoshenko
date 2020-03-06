@@ -1,6 +1,7 @@
 package ru.otus.testing.service;
 
 
+import org.springframework.util.CollectionUtils;
 import ru.otus.testing.dao.QuestionDao;
 import ru.otus.testing.model.Question;
 
@@ -17,20 +18,24 @@ public class QuestionServiceImpl implements QuestionService {
         this.questionDao = questionDao;
     }
 
-    public void init() {
-        this.questions = this.questionDao.findAllQuestion();
-    }
-
     @Override
     public Question getQuestion(int idx) {
+        if(CollectionUtils.isEmpty(this.questions)){
+            this.questions = this.questionDao.findAllQuestion();
+        }
+
         if (idx < this.questions.size()) {
             return this.questions.get(idx);
         }
+
         throw new RuntimeException("idx > list size");
     }
 
     @Override
     public int quantityQuestions() {
+        if(CollectionUtils.isEmpty(this.questions)){
+            this.questions = this.questionDao.findAllQuestion();
+        }
         return this.questions.size();
     }
 }
