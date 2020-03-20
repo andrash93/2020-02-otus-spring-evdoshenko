@@ -19,23 +19,11 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public Question getQuestion(int idx) {
-        if(CollectionUtils.isEmpty(this.questions)){
+    public List<Question> getQuestions() {
+        if (CollectionUtils.isEmpty(this.questions)) {
             this.questions = this.questionDao.findAllQuestion();
         }
-
-        if (idx < this.questions.size()) {
-            return this.questions.get(idx);
-        }
-
-        throw new RuntimeException("idx > list size");
+        return this.questionDao.findAllQuestion();
     }
 
-    @Override
-    public int quantityQuestions() {
-        if(CollectionUtils.isEmpty(this.questions)){
-            this.questions = this.questionDao.findAllQuestion();
-        }
-        return this.questions.size();
-    }
 }

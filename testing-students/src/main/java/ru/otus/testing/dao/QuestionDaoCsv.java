@@ -4,6 +4,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import ru.otus.testing.model.Question;
 import ru.otus.testing.model.QuestionType;
+import ru.otus.testing.service.LocalizationService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,17 +16,17 @@ import java.util.List;
 public class QuestionDaoCsv implements QuestionDao {
 
     private final ResourceLoader resourceLoader;
-    private final String resourceName;
+    private final LocalizationService localizationService;
 
-    public QuestionDaoCsv(ResourceLoader resourceLoader, String resourceName) {
+    public QuestionDaoCsv(ResourceLoader resourceLoader, LocalizationService localizationService) {
         this.resourceLoader = resourceLoader;
-        this.resourceName = resourceName;
+        this.localizationService = localizationService;
     }
 
     @Override
     public List<Question> findAllQuestion() {
 
-        Resource resource = this.resourceLoader.getResource(resourceName);
+        Resource resource = this.resourceLoader.getResource(localizationService.getResourceNameForCurrentLocale());
         List<Question> questions = new ArrayList<>();
 
         try {

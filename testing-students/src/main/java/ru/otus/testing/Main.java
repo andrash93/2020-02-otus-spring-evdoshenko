@@ -1,16 +1,15 @@
 package ru.otus.testing;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import ru.otus.testing.config.SpringConfig;
 import ru.otus.testing.service.SurveyService;
 
-import java.util.Scanner;
-
-
+@SpringBootApplication
 public class Main {
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/spring-context.xml");
-        SurveyService surveyService = context.getBean(SurveyService.class);
-        surveyService.runTest();
-        context.close();
+        SpringApplication.run(Main.class);
     }
 }

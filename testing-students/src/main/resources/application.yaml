@@ -1,0 +1,8 @@
+localization-settings:
+  en-question-path: classpath:/csv/questions_en_US.csv
+  ru-question-path: classpath:/csv/questions_ru_RU.csv
+survey-settings:
+  min-count-right-answer: 2
+spring:
+  banner:
+    location: baner.txt
