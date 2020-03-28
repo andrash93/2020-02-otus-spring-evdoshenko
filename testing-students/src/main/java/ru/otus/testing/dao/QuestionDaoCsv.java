@@ -2,6 +2,7 @@ package ru.otus.testing.dao;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import ru.otus.testing.exception.UnsupportedLocalException;
 import ru.otus.testing.model.Question;
 import ru.otus.testing.model.QuestionType;
 import ru.otus.testing.service.LocalizationService;
@@ -26,10 +27,11 @@ public class QuestionDaoCsv implements QuestionDao {
     @Override
     public List<Question> findAllQuestion() {
 
-        Resource resource = this.resourceLoader.getResource(localizationService.getResourceNameForCurrentLocale());
-        List<Question> questions = new ArrayList<>();
-
+        Resource resource = null;
         try {
+            resource = this.resourceLoader.getResource(localizationService.getResourceNameForCurrentLocale());
+
+            List<Question> questions = new ArrayList<>();
             String line = "";
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(resource.getInputStream()));
             while ((line = bufferedReader.readLine()) != null) {
@@ -37,7 +39,7 @@ public class QuestionDaoCsv implements QuestionDao {
             }
             bufferedReader.close();
             return questions;
-        } catch (IOException e) {
+        } catch (IOException | UnsupportedLocalException e) {
             e.printStackTrace();
         }
         return Collections.emptyList();

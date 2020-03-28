@@ -1,6 +1,7 @@
 package ru.otus.testing.service;
 
 import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Service;
 import ru.otus.testing.config.SurveyProperties;
 import ru.otus.testing.model.Question;
 import ru.otus.testing.model.QuestionType;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-
+@Service
 public class SurveyServiceImpl implements SurveyService {
 
     private final QuestionService questionService;

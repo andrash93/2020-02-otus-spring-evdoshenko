@@ -28,7 +28,7 @@ public class SurveyCommands {
     @ShellMethod(value = "init local shel command", key = {"l", "locale"})
     public String initLocale(String localName) {
         try {
-            localizationService.setCurrentLocale(getLocale(localName));
+            localizationService.setCurrentLocale(localName);
             return messageSource.getMessage("selected.local", null, this.localizationService.getCurrentLocale());
         } catch (UnsupportedLocalException e) {
             String errorMessage = messageSource.getMessage("unsupported.local", new String[]{e.getUnsupportedLocalName()}, Locale.forLanguageTag("ru-RU")) +
@@ -52,13 +52,4 @@ public class SurveyCommands {
         return Availability.available();
     }
 
-    private Locale getLocale(String localName) throws UnsupportedLocalException {
-        if (localName.toLowerCase().equals("en")) {
-            return Locale.forLanguageTag("en-US");
-        }
-        if (localName.toLowerCase().equals("ru")) {
-            return Locale.forLanguageTag("ru-RU");
-        }
-        throw new UnsupportedLocalException(localName);
-    }
 }

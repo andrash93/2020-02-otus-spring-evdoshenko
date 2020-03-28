@@ -26,23 +26,8 @@ public class SpringConfig {
     }
 
     @Bean
-    public LocalizationService localizationService(@Autowired LocalizationProperties localizationProperties) {
-        return new LocalizationServiceImpl(localizationProperties);
-    }
-
-    @Bean
-    public QuestionService questionService(@Autowired QuestionDao questionDao) {
-        return new QuestionServiceImpl(questionDao);
-    }
-
-    @Bean
     public QuestionDao questionDao(@Autowired ResourceLoader resourceLoader, @Autowired LocalizationService localizationService) {
         return new QuestionDaoCsv(resourceLoader, localizationService);
-    }
-
-    @Bean
-    public SurveyService surveyService(@Autowired QuestionService questionService, @Autowired MessageSource messageSource, @Autowired LocalizationService localizationService, @Autowired SurveyProperties surveyProperties) {
-        return new SurveyServiceImpl(questionService, messageSource, localizationService, surveyProperties);
     }
 
     @Bean

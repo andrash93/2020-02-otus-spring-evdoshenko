@@ -3,26 +3,28 @@ package ru.otus.testing.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 @Component
 @ConfigurationProperties("localization-settings")
 public class LocalizationProperties {
 
-    private String enQuestionPath;
-    private String ruQuestionPath;
+    private Map<String, String> local;
+    private Map<String, String> localPath;
 
-    public String getEnQuestionPath() {
-        return enQuestionPath;
+    public Map<String, String> getLocal() {
+        return local;
     }
 
-    public void setEnQuestionPath(String enQuestionPath) {
-        this.enQuestionPath = enQuestionPath;
+    public void setLocal(Map<String, String> local) {
+        this.local = local;
     }
 
-    public String getRuQuestionPath() {
-        return ruQuestionPath;
+    public Map<String, String> getLocalPath() {
+        return localPath;
     }
 
-    public void setRuQuestionPath(String ruQuestionPath) {
-        this.ruQuestionPath = ruQuestionPath;
+    public void setLocalPath(Map<String, String> localPath) {
+        this.localPath = localPath;
     }
 }

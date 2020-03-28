@@ -1,9 +1,12 @@
 package ru.otus.testing.service;
 
+import org.springframework.stereotype.Service;
 import ru.otus.testing.config.LocalizationProperties;
+import ru.otus.testing.exception.UnsupportedLocalException;
 
 import java.util.Locale;
 
+@Service
 public class LocalizationServiceImpl implements LocalizationService {
 
     private final LocalizationProperties localizationProperties;
@@ -20,18 +23,20 @@ public class LocalizationServiceImpl implements LocalizationService {
     }
 
     @Override
-    public void setCurrentLocale(Locale locale) {
-        this.currentLocale = locale;
+    public void setCurrentLocale(String localeName) throws UnsupportedLocalException {
+        if (localizationProperties.getLocal().containsKey(localeName.toLowerCase())) {
+            this.currentLocale = Locale.forLanguageTag(localizationProperties.getLocal().get(localeName.toLowerCase()));
+        } else {
+            throw new UnsupportedLocalException(localeName);
+        }
     }
 
     @Override
-    public String getResourceNameForCurrentLocale() {
-        if (currentLocale.equals(Locale.forLanguageTag("ru-RU"))) {
-            return localizationProperties.getRuQuestionPath();
+    public String getResourceNameForCurrentLocale() throws UnsupportedLocalException {
+        String resourceName = localizationProperties.getLocalPath().get(currentLocale.toLanguageTag());
+        if (resourceName != null) {
+            return resourceName;
         }
-        if (currentLocale.equals(Locale.forLanguageTag("en-US"))) {
-            return localizationProperties.getEnQuestionPath();
-        }
-        return localizationProperties.getRuQuestionPath();
+        throw new UnsupportedLocalException(currentLocale.getLanguage());
     }
 }
