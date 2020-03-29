@@ -26,11 +26,6 @@ public class SpringConfig {
     }
 
     @Bean
-    public QuestionDao questionDao(@Autowired ResourceLoader resourceLoader, @Autowired LocalizationService localizationService) {
-        return new QuestionDaoCsv(resourceLoader, localizationService);
-    }
-
-    @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource ret = new ReloadableResourceBundleMessageSource();
         ret.setBasename("classpath:i18n/bundle/messages");
