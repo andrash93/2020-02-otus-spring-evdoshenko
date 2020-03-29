@@ -25,7 +25,7 @@ public class QuestionServiceImpl implements QuestionService {
         if (CollectionUtils.isEmpty(this.questions)) {
             this.questions = this.questionDao.findAllQuestion();
         }
-        return this.questionDao.findAllQuestion();
+        return this.questions;
     }
 
 }
