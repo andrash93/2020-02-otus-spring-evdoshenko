@@ -2,6 +2,7 @@ package ru.otus.testing.dao;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Repository;
 import ru.otus.testing.exception.UnsupportedLocalException;
 import ru.otus.testing.model.Question;
 import ru.otus.testing.model.QuestionType;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Repository
 public class QuestionDaoCsv implements QuestionDao {
 
     private final ResourceLoader resourceLoader;
