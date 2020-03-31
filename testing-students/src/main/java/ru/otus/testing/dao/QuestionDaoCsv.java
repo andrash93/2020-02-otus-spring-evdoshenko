@@ -2,8 +2,11 @@ package ru.otus.testing.dao;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Repository;
+import ru.otus.testing.exception.UnsupportedLocalException;
 import ru.otus.testing.model.Question;
 import ru.otus.testing.model.QuestionType;
+import ru.otus.testing.service.LocalizationService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,23 +15,25 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Repository
 public class QuestionDaoCsv implements QuestionDao {
 
     private final ResourceLoader resourceLoader;
-    private final String resourceName;
+    private final LocalizationService localizationService;
 
-    public QuestionDaoCsv(ResourceLoader resourceLoader, String resourceName) {
+    public QuestionDaoCsv(ResourceLoader resourceLoader, LocalizationService localizationService) {
         this.resourceLoader = resourceLoader;
-        this.resourceName = resourceName;
+        this.localizationService = localizationService;
     }
 
     @Override
     public List<Question> findAllQuestion() {
 
-        Resource resource = this.resourceLoader.getResource(resourceName);
-        List<Question> questions = new ArrayList<>();
-
+        Resource resource = null;
         try {
+            resource = this.resourceLoader.getResource(localizationService.getResourceNameForCurrentLocale());
+
+            List<Question> questions = new ArrayList<>();
             String line = "";
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(resource.getInputStream()));
             while ((line = bufferedReader.readLine()) != null) {
@@ -36,7 +41,7 @@ public class QuestionDaoCsv implements QuestionDao {
             }
             bufferedReader.close();
             return questions;
-        } catch (IOException e) {
+        } catch (IOException | UnsupportedLocalException e) {
             e.printStackTrace();
         }
         return Collections.emptyList();
