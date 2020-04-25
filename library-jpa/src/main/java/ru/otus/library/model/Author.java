@@ -27,7 +27,7 @@ public class Author {
     @Column(name = "country")
     private String country;
 
-    @OneToMany(targetEntity = Book.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Book.class, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private List<Book> books;
 

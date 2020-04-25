@@ -8,7 +8,6 @@ import ru.otus.library.model.Genre;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +30,7 @@ public class GenreRepositoryJpa implements GenreRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Genre> findGenreById(Long id) {
         return Optional.ofNullable(entityManager.find(Genre.class, id));
     }
@@ -53,10 +53,9 @@ public class GenreRepositoryJpa implements GenreRepository {
 
     @Override
     public void deleteGenre(Long genreId) {
-        Query query = entityManager.createQuery("delete " +
-                "from Genre g " +
-                "where g.id = :id");
-        query.setParameter("id", genreId);
-        query.executeUpdate();
+        Genre genre = entityManager.find(Genre.class, genreId);
+        if (genre != null) {
+            entityManager.remove(genre);
+        }
     }
 }

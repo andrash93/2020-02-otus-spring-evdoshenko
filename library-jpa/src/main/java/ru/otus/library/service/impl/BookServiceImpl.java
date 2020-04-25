@@ -1,6 +1,7 @@
 package ru.otus.library.service.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.library.repository.BookRepository;
 import ru.otus.library.model.Author;
 import ru.otus.library.model.Book;
@@ -36,6 +37,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Book> findBooksByAuthor(String authorName) {
 
         if (authorName == null || authorName.equals("")) {

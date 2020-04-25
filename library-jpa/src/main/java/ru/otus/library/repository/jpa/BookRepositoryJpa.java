@@ -7,7 +7,6 @@ import ru.otus.library.model.Book;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +29,7 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Book> findBookById(Long id) {
         return Optional.ofNullable(entityManager.find(Book.class, id));
     }
@@ -52,11 +52,10 @@ public class BookRepositoryJpa implements BookRepository {
 
     @Override
     public void deleteBook(Long id) {
-        Query query = entityManager.createQuery("delete " +
-                "from Book b " +
-                "where b.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        Book book = entityManager.find(Book.class, id);
+        if (book != null) {
+            entityManager.remove(book);
+        }
     }
 
 

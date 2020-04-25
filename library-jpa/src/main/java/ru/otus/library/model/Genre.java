@@ -24,7 +24,7 @@ public class Genre {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(targetEntity = Book.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Book.class, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "genre_id")
     private List<Book> books;
 

@@ -7,7 +7,6 @@ import ru.otus.library.model.Author;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +29,7 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Author> findAuthorById(Long authorId) {
         return Optional.ofNullable(entityManager.find(Author.class, authorId));
     }
@@ -52,11 +52,10 @@ public class AuthorRepositoryJpa implements AuthorRepository {
 
     @Override
     public void deleteAuthor(Long authorId) {
-        Query query = entityManager.createQuery("delete " +
-                "from Author a " +
-                "where a.id = :id");
-        query.setParameter("id", authorId);
-        query.executeUpdate();
+        Author author = entityManager.find(Author.class, authorId);
+        if (author != null) {
+            entityManager.remove(author);
+        }
     }
 
 }
