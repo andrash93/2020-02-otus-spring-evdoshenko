@@ -11,7 +11,6 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
-@Transactional
 @Repository
 public class BookRepositoryJpa implements BookRepository {
 
@@ -19,6 +18,7 @@ public class BookRepositoryJpa implements BookRepository {
     private EntityManager entityManager;
 
     @Override
+    @Transactional
     public Long saveBook(Book book) {
         if (book.getId() == null) {
             entityManager.persist(book);
@@ -29,7 +29,6 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<Book> findBookById(Long id) {
         return Optional.ofNullable(entityManager.find(Book.class, id));
     }
@@ -51,6 +50,7 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
+    @Transactional
     public void deleteBook(Long id) {
         Book book = entityManager.find(Book.class, id);
         if (book != null) {

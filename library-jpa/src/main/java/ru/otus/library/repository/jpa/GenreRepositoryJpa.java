@@ -12,7 +12,6 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
-@Transactional
 @Repository
 public class GenreRepositoryJpa implements GenreRepository {
 
@@ -20,6 +19,7 @@ public class GenreRepositoryJpa implements GenreRepository {
     private EntityManager entityManager;
 
     @Override
+    @Transactional
     public Long saveGenre(Genre genre) {
         if (genre.getId() == null) {
             entityManager.persist(genre);
@@ -30,7 +30,6 @@ public class GenreRepositoryJpa implements GenreRepository {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<Genre> findGenreById(Long id) {
         return Optional.ofNullable(entityManager.find(Genre.class, id));
     }
@@ -52,6 +51,7 @@ public class GenreRepositoryJpa implements GenreRepository {
     }
 
     @Override
+    @Transactional
     public void deleteGenre(Long genreId) {
         Genre genre = entityManager.find(Genre.class, genreId);
         if (genre != null) {

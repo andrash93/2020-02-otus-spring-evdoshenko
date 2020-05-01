@@ -11,13 +11,13 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
-@Transactional
 @Repository
 public class AuthorRepositoryJpa implements AuthorRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Transactional
     @Override
     public Long saveAuthor(Author author) {
         if (author.getId() == null) {
@@ -29,7 +29,6 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<Author> findAuthorById(Long authorId) {
         return Optional.ofNullable(entityManager.find(Author.class, authorId));
     }
@@ -50,6 +49,7 @@ public class AuthorRepositoryJpa implements AuthorRepository {
         return query.getResultList();
     }
 
+    @Transactional
     @Override
     public void deleteAuthor(Long authorId) {
         Author author = entityManager.find(Author.class, authorId);
