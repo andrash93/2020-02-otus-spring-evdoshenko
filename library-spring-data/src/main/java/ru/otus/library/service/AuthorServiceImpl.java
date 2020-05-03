@@ -1,8 +1,10 @@
 package ru.otus.library.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.library.model.Author;
 import ru.otus.library.repository.AuthorRepository;
+import ru.otus.library.service.impl.AuthorService;
 
 import java.util.Collections;
 import java.util.List;
@@ -35,6 +37,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    @Transactional
     public void deleteAuthor(Long id) {
         authorRepository.deleteById(id);
     }

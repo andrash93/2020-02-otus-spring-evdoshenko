@@ -1,9 +1,14 @@
 package ru.otus.library.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.otus.library.model.Author;
 import ru.otus.library.model.Book;
 import ru.otus.library.repository.BookRepository;
+import ru.otus.library.service.impl.AuthorService;
+import ru.otus.library.service.impl.BookService;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,9 +16,11 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
+    private final AuthorService authorService;
 
-    public BookServiceImpl(BookRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository, AuthorService authorService) {
         this.bookRepository = bookRepository;
+        this.authorService = authorService;
     }
 
     @Override
@@ -30,19 +37,18 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Book> findBooksByAuthor(String authorName) {
         if (authorName == null || authorName.equals("")) {
             return Collections.EMPTY_LIST;
         }
-        return bookRepository.findByAuthor_Name(authorName);
-    }
 
-    @Override
-    public List<Book> findBooksByGenre(String genreName) {
-        if (genreName == null || genreName.equals("")) {
-            return Collections.EMPTY_LIST;
-        }
-        return bookRepository.findByGenre_Name(genreName);
+        List<Author> authorsByName = authorService.findAuthorsByName(authorName);
+
+        List<Book> books = new ArrayList();
+        authorsByName.forEach(author -> books.addAll(author.getBooks()));
+
+        return books;
     }
 
     @Override

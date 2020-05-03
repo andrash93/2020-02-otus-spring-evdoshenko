@@ -6,8 +6,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import ru.otus.library.model.Author;
 import ru.otus.library.model.Book;
 import ru.otus.library.repository.BookRepository;
+import ru.otus.library.service.impl.AuthorService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,8 @@ public class BookServiceImplTest {
 
     @Mock
     private BookRepository bookRepository;
+    @Mock
+    private AuthorService authorService;
 
     @InjectMocks
     private BookServiceImpl bookService;
@@ -49,17 +53,25 @@ public class BookServiceImplTest {
         List<Book> booksByName = bookService.findBooksByAuthor("");
         assertEquals(0, booksByName.size());
 
+        String authorName = "автор";
+
         List<Book> books = new ArrayList<>();
         books.add(new Book());
         books.add(new Book());
-        books.add(new Book());
-        String authorName = "автор";
-        when(bookRepository.findByAuthor_Name(authorName)).thenReturn(books);
+
+        List<Author> authors = new ArrayList<>();
+        Author author = new Author();
+        author.setName(authorName);
+        author.setBooks(books);
+        authors.add(author);
+
+
+        when(authorService.findAuthorsByName(authorName)).thenReturn(authors);
 
         List<Book> resultList = bookService.findBooksByAuthor(authorName);
 
-        assertEquals(3, resultList.size());
-        verify(bookRepository, times(1)).findByAuthor_Name(authorName);
+        assertEquals(2, resultList.size());
+        verify(authorService, times(1)).findAuthorsByName(authorName);
     }
 
     @Test
@@ -76,6 +88,5 @@ public class BookServiceImplTest {
         bookService.updateBook(book, id);
         verify(bookRepository, times(1)).save(book);
     }
-
 
 }

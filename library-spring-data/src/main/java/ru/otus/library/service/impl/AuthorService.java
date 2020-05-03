@@ -1,4 +1,4 @@
-package ru.otus.library.service;
+package ru.otus.library.service.impl;
 
 import ru.otus.library.model.Author;
 

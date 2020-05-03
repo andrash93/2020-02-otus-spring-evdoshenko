@@ -3,6 +3,7 @@ package ru.otus.library.service;
 import org.springframework.stereotype.Service;
 import ru.otus.library.model.Genre;
 import ru.otus.library.repository.GenreRepository;
+import ru.otus.library.service.impl.GenreService;
 
 import java.util.Collections;
 import java.util.List;

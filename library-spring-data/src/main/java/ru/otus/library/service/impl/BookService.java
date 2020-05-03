@@ -1,4 +1,4 @@
-package ru.otus.library.service;
+package ru.otus.library.service.impl;
 
 import ru.otus.library.model.Book;
 
@@ -11,8 +11,6 @@ public interface BookService {
     List<Book> findBooksByName(String name);
 
     List<Book> findBooksByAuthor(String authorName);
-
-    List<Book> findBooksByGenre(String genreName);
 
     List<Book> findAllBooks();
 

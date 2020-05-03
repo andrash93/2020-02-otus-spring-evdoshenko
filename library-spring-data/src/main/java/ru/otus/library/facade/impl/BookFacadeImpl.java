@@ -1,28 +1,22 @@
-package ru.otus.library.facade;
+package ru.otus.library.facade.impl;
 
 import org.springframework.stereotype.Service;
+import ru.otus.library.facade.BookFacade;
 import ru.otus.library.model.Author;
 import ru.otus.library.model.Book;
 import ru.otus.library.model.Genre;
-import ru.otus.library.service.AuthorService;
-import ru.otus.library.service.BookService;
-import ru.otus.library.service.GenreService;
+import ru.otus.library.service.impl.BookService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
 @Service
-public class LibraryFacadeImpl implements LibraryFacade {
+public class BookFacadeImpl implements BookFacade {
 
-    private final AuthorService authorService;
     private final BookService bookService;
-    private final GenreService genreService;
 
-    public LibraryFacadeImpl(AuthorService authorService, BookService bookService, GenreService genreService) {
-        this.authorService = authorService;
+    public BookFacadeImpl(BookService bookService) {
         this.bookService = bookService;
-        this.genreService = genreService;
     }
 
     @Override
@@ -77,15 +71,6 @@ public class LibraryFacadeImpl implements LibraryFacade {
         }
     }
 
-    @Override
-    public void findBooksByGenre(String genreName) {
-        List<Book> booksByGenre = bookService.findBooksByGenre(genreName);
-        if (!booksByGenre.isEmpty()) {
-            booksByGenre.forEach(System.out::println);
-        } else {
-            System.out.println("Книги не найдены");
-        }
-    }
 
     @Override
     public void findAllBooks() {
@@ -138,80 +123,4 @@ public class LibraryFacadeImpl implements LibraryFacade {
         System.out.println("Книга успешно обновлена");
     }
 
-    @Override
-    public void addAuthor() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите имя автора");
-        String authorName = scanner.nextLine();
-        System.out.println("Введите страну автора");
-        String authorCountry = scanner.nextLine();
-
-        Author author = new Author();
-        author.setName(authorName);
-        author.setCountry(authorCountry);
-
-        authorService.saveAuthor(author);
-
-        System.out.println("Автор успешно добавлен");
-    }
-
-    @Override
-    public void findAuthorByName(String authorName) {
-        List<Author> authorsByName = authorService.findAuthorsByName(authorName);
-        if (!authorsByName.isEmpty()) {
-            authorsByName.forEach(System.out::println);
-        } else {
-            System.out.println("Автор не найден");
-        }
-    }
-
-    @Override
-    public void findAllAuthors() {
-        List<Author> allAuthors = authorService.findAllAuthors();
-        System.out.println("Количество найденных авторов : " + allAuthors.size());
-        allAuthors.forEach(System.out::println);
-    }
-
-    @Override
-    public void deleteAuthor(Long id) {
-        authorService.deleteAuthor(id);
-        System.out.println("Автор успешно удален");
-    }
-
-    @Override
-    public void addGenre() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите название жанра");
-        String genreName = scanner.nextLine();
-
-        Genre genre = new Genre();
-        genre.setName(genreName);
-
-        genreService.saveGenre(genre);
-
-        System.out.println("Жанр успешно добавлен");
-    }
-
-    @Override
-    public void findGenreByName(String name) {
-        List<Genre> genreByName = genreService.findGenreByName(name);
-        if (!genreByName.isEmpty()) {
-            genreByName.forEach(System.out::println);
-        } else {
-            System.out.println("Жанр не найден");
-        }
-    }
-
-    @Override
-    public void findAllGenre() {
-        List<Genre> allGenre = genreService.findAllGenre();
-        System.out.println("Количество найденных жанров : " + allGenre.size());
-        allGenre.forEach(System.out::println);
-    }
-
-    @Override
-    public void deleteGenre(Long id) {
-        genreService.deleteGenre(id);
-        System.out.println("Жанр успешно удален");
-    }
 }

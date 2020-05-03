@@ -28,12 +28,4 @@ class BookRepositoryTest {
         assertThat(1).isEqualTo(books.size());
     }
 
-
-    @DisplayName("Поиск книг по автору")
-    @Test
-    void findBooksByAuthorTest() {
-        List<Book> books = bookRepository.findByAuthor_Name("автор2");
-        assertThat(2).isEqualTo(books.size());
-    }
-
 }

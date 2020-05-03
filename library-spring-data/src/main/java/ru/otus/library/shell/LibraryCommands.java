@@ -3,88 +3,94 @@ package ru.otus.library.shell;
 
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
-import ru.otus.library.facade.LibraryFacade;
+import ru.otus.library.facade.AuthorFacade;
+import ru.otus.library.facade.BookFacade;
+import ru.otus.library.facade.GenreFacade;
 
 @ShellComponent
 public class LibraryCommands {
 
-    private final LibraryFacade libraryFacade;
+    private final BookFacade bookFacade;
+    private final AuthorFacade authorFacade;
+    private final GenreFacade genreFacade;
 
-    public LibraryCommands(LibraryFacade libraryFacade) {
-        this.libraryFacade = libraryFacade;
+    public LibraryCommands(BookFacade bookFacade, AuthorFacade authorFacade, GenreFacade genreFacade) {
+        this.bookFacade = bookFacade;
+        this.authorFacade = authorFacade;
+        this.genreFacade = genreFacade;
     }
 
 
     @ShellMethod(value = "Add author", key = {"add author", "aa"})
     public void addAuthor() {
-        libraryFacade.addAuthor();
+        authorFacade.addAuthor();
     }
 
     @ShellMethod(value = "find author by name", key = {"find author", "fa"})
     public void findAuthor(String name) {
-        libraryFacade.findAuthorByName(name);
+        authorFacade.findAuthorByName(name);
     }
 
     @ShellMethod(value = "find all author by name", key = {"find all author", "fall"})
     public void findAllAuthors() {
-        libraryFacade.findAllAuthors();
+        authorFacade.findAllAuthors();
     }
 
     @ShellMethod(value = "delete author", key = {"delete  author", "da"})
     public void deleteAuthor(Long id) {
-        libraryFacade.deleteAuthor(id);
+        authorFacade.deleteAuthor(id);
     }
 
 
     @ShellMethod(value = "Add genre", key = {"add genre", "ag"})
     public void addGenre() {
-        libraryFacade.addGenre();
+        genreFacade.addGenre();
     }
 
     @ShellMethod(value = "find genre by name", key = {"find genre", "fg"})
     public void findGenre(String name) {
-        libraryFacade.findGenreByName(name);
+        genreFacade.findGenreByName(name);
     }
 
     @ShellMethod(value = "find all genre", key = {"find all genre", "fallg"})
     public void findAllGenre() {
-        libraryFacade.findAllGenre();
+        genreFacade.findAllGenre();
     }
 
     @ShellMethod(value = "delete genre", key = {"delete genre", "dg"})
     public void deleteGenre(Long id) {
-        libraryFacade.deleteGenre(id);
+        genreFacade.deleteGenre(id);
     }
 
 
     @ShellMethod(value = "Add book", key = {"add book", "ab"})
     public void addBook() {
-        libraryFacade.addBook();
+        bookFacade.addBook();
     }
 
     @ShellMethod(value = "find book by author name", key = {"find book author", "fba"})
     public void findBookByAuthor(String name) {
-        libraryFacade.findBooksByAuthor(name);
+        bookFacade.findBooksByAuthor(name);
     }
 
     @ShellMethod(value = "find book by name", key = {"find book name", "fbn"})
     public void findBookByName(String name) {
-        libraryFacade.findBookByName(name);
+        bookFacade.findBookByName(name);
     }
 
     @ShellMethod(value = "find all book ", key = {"find all book", "fallb"})
     public void findAllBook() {
-        libraryFacade.findAllBooks();
+        bookFacade.findAllBooks();
     }
 
     @ShellMethod(value = "delete book", key = {"delete book", "db"})
     public void deleteBook(Long id) {
-        libraryFacade.deleteBook(id);
+        bookFacade.deleteBook(id);
     }
 
     @ShellMethod(value = "update book", key = {"update book", "ub"})
     public void updateBook(Long id) {
-        libraryFacade.updateBook(id);
+        bookFacade.updateBook(id);
     }
 
 }
