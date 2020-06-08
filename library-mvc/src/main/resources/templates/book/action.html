@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title/>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:fragment="action">
+    <div class="col-1.5" >
+        <br>
+        <a th:href="@{/book/add}" class="btn btn-success btn-sm btn-block"><i> Добавить </i></a>
+        <br>
+        <a th:href="@{/book/name}" class="btn btn-success btn-sm btn-block"><i> Поиск </i></a>
+        <br>
+        <a th:href="@{/book/author}" class="btn btn-success btn-sm btn-block"><i> Поиск по автору </i></a>
+        <br>
+        <a th:href="@{/book/list}" class="btn btn-success btn-sm btn-block"><i> Список </i></a>
+    </div>
+</div>
+</body>
+</html>

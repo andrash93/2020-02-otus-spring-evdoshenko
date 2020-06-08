@@ -1,0 +1,37 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Библиотека</title>
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+    <script th:src="@{/popper/popper.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="row justify-content-center">
+    <div class="col-3" th:align="center">
+        библиотека
+    </div>
+</div>
+<hr>
+<div th:insert="/menu :: menu"></div>
+<hr>
+<div class="row justify-content-center">
+    <div class="col-4" align="left">
+        <h2>CRUD приложение с Web UI и хранением данных в БД</h2> <br>
+        Цель: разрабатывать полноценные классические Web-приложения <br>
+        Результат: Web-приложение полностью на стеке Spring <br>
+        Необходимо:<br>
+        <ul>
+            <li>Создать приложение с хранением сущностей в БД (можно взять библиотеку и DAO/репозитории из прошлых
+                занятий)
+            </li>
+            <li>Использовать классический View на Thymeleaf, classic Controllers.</li>
+            <li>Для книг (главной сущности) на UI должны быть доступные все CRUD операции. CRUD остальных сущностей -
+                по желанию/необходимости.
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
