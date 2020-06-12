@@ -1,0 +1,8 @@
+spring:
+  data:
+    mongodb:
+      database: home_library
+
+
+
+
