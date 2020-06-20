@@ -1,0 +1,61 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Библиотека</title>
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+    <script th:src="@{/popper/popper.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="row justify-content-center">
+    <div class="col-3" th:align="right">
+        библиотека - книги
+    </div>
+    <div class="col-3" th:align="right">
+        <div th:insert="/authontificate :: authontificate"></div>
+    </div>
+</div>
+<hr>
+<div th:insert="/menu :: menu"></div>
+<hr>
+<div class="row justify-content-center">
+    <div class="col-1.5" th:insert="/book/action :: action"></div>
+    <div class="col-5">
+        <form id="edit-form" th:action="@{/book/edit}" th:method="post">
+            <input type="hidden" name="bookId" th:value="${book.bookId}">
+            <div class="form-group">
+                <label for="book-name">Название</label>
+                <input type="text" class="form-control" id="book-name" name="name" th:value="${book.name}" placeholder="Название">
+            </div>
+            <div class="form-group">
+            <label for="author-input">Автор:</label>
+                <select id="author-input" name="authorId">
+                    <option th:each="author : ${allAuthors}" th:selected="${author.authorId.equals(book.author.authorId)}"
+                            th:value="${author.authorId}" th:text="${author.name}">Жанр
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+            <label for="genre-input">Жанр:</label>
+                <select id="genre-input" name="genreId">
+                    <option th:each="genre : ${allGenres}" th:selected="${genre.genreId.equals(book.genre.genreId)}"
+                            th:value="${genre.genreId}" th:text="${genre.name}">Жанр
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="publishing-name">Издательство</label>
+                <input type="text" class="form-control" id="publishing-name" name="publishing" th:value="${book.publishing}" placeholder="Издательство">
+            </div>
+            <div class="form-group">
+                <label for="page-name">Количество страниц</label>
+                <input type="text" class="form-control" id="page-name" name="page" th:value="${book.quantityPages}" placeholder="Страниц">
+            </div>
+
+            <input type="submit" class="btn btn-success btn-sm" value="Сохранить"/>
+        </form>
+    </div>
+</div>
+</body>
+</html>
