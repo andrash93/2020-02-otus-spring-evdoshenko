@@ -1,0 +1,12 @@
+apiVersion: v2
+name: vpbx-app-chart
+description: A Helm chart for Kubernetes for vpbx-app
+type: application
+version: 0.1.0
+appVersion: v10
+
+dependencies:
+  - name: redis
+    version: 10.6.x
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "vpbx-app-chart.fullname" . }}
+  labels:
+    {{- include "vpbx-app-chart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "vpbx-app-chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "vpbx-app-chart.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/config.yaml") . | sha256sum }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          env:
+            - name: ITG_SERVER_SERVICE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "vpbx-app-chart.fullname" . }}
+                  key: ITG_SERVER_SERVICE
+            - name: REDIS_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "vpbx-app-chart.fullname" . }}
+                  key: REDIS_DATABASE
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "vpbx-app-chart.fullname" . }}
+                  key: REDIS_HOST
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "vpbx-app-chart.fullname" . }}
+                  key: REDIS_PORT
+          ports:
+            - name: web
+              containerPort: 80

@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "itg-app-chart.fullname" . }}
+  labels:
+    {{- include "itg-app-chart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "itg-app-chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "itg-app-chart.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/config.yaml") . | sha256sum }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          env:
+            - name: TELEGRAM_BOT_SERVICE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "itg-app-chart.fullname" . }}
+                  key: TELEGRAM_BOT_SERVICE
+            - name: VPBX_SERVICE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "itg-app-chart.fullname" . }}
+                  key: VPBX_SERVICE
+            - name: MONGO_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "itg-app-chart.fullname" . }}
+                  key: MONGO_DATABASE
+            - name: MONGO_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "itg-app-chart.fullname" . }}
+                  key: MONGO_HOST
+            - name: MONGO_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "itg-app-chart.fullname" . }}
+                  key: MONGO_PORT
+            - name: MONGO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: itg-app-secret
+                  key: MONGO_USERNAME
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: itg-app-secret
+                  key: MONGO_PASSWORD
+          ports:
+            - name: web
+              containerPort: 80

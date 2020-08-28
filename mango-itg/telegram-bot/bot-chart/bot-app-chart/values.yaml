@@ -1,0 +1,12 @@
+replicaCount: 1
+
+image:
+  repository: telegram-app
+
+service:
+  type: NodePort
+  port: 9000
+
+ingress:
+  address: nginx-nginx-ingress-controller
+  hostname: otus.project

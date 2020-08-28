@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "telegram-app-chart.fullname" . }}
+data:
+  BOT_NAME: "MangoOffice_bot"
+  BOT_TOKEN: "1256195891:AAE6YcKfUSxhJFiLvd1A0I_4QnQHyxedAbY"
+  ITG_SERVER_SERVICE: "http://itg-itg-app-chart:9000"
+---

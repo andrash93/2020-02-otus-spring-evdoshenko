@@ -1,0 +1,20 @@
+replicaCount: 1
+
+image:
+  repository: itg-app
+
+service:
+  type: NodePort
+  port: 9000
+
+mongodb:
+  enabled: true
+  mongodbUsername: myuser
+  mongodbPassword: passwd
+  mongodbDatabase: itg
+  service:
+    port: "27017"
+
+ingress:
+  address: nginx-nginx-ingress-controller
+  hostname: otus.project

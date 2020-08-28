@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "vpbx-app-chart.fullname" . }}
+spec:
+  rules:
+    - host:
+      http:
+        paths:
+          - backend:
+              serviceName: {{ include "vpbx-app-chart.fullname" . }}
+              servicePort: {{ .Values.service.port }}
+            path: /actuator/health
+          - backend:
+              serviceName: {{ include "vpbx-app-chart.fullname" . }}
+              servicePort: {{ .Values.service.port }}
+            path: /events/call
+          - backend:
+              serviceName: {{ include "vpbx-app-chart.fullname" . }}
+              servicePort: {{ .Values.service.port }}
+            path: /events/summary
+          - backend:
+              serviceName: {{ include "vpbx-app-chart.fullname" . }}
+              servicePort: {{ .Values.service.port }}
+            path: /calls/4jvduicx7xe29xynmfi7u6yelmaee828
+          - backend:
+              serviceName: {{ include "vpbx-app-chart.fullname" . }}
+              servicePort: {{ .Values.service.port }}
+            path: /calls/delete/4jvduicx7xe29xynmfi7u6yelmaee828

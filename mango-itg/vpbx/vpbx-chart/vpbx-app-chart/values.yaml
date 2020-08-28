@@ -1,0 +1,21 @@
+replicaCount: 1
+
+image:
+  repository: vpbx-app
+
+service:
+  type: NodePort
+  port: 9000
+
+redis:
+  type: NodePort
+  enabled: true
+  usePassword: false
+  index: 2
+  service:
+    port: "6379"
+
+
+ingress:
+  address: nginx-nginx-ingress-controller
+  hostname: otus.project
