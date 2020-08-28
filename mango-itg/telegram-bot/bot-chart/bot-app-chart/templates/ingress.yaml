@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "telegram-app-chart.fullname" . }}
+spec:
+  rules:
+    - host:
+      http:
+        paths:
+          - backend:
+              serviceName: {{ include "telegram-app-chart.fullname" . }}
+              servicePort: {{ .Values.service.port }}
+            path: /config
+          - backend:
+              serviceName: {{ include "telegram-app-chart.fullname" . }}
+              servicePort: {{ .Values.service.port }}
+            path: /

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "itg-app-chart.fullname" . }}
+data:
+  MONGO_PORT: {{.Values.mongodb.service.port | quote}}
+  MONGO_HOST: {{ .Release.Name }}-mongodb
+  MONGO_DATABASE: {{.Values.mongodb.mongodbDatabase | quote}}
+
+  TELEGRAM_BOT_SERVICE: "http://bot-telegram-app-chart:9000"
+  VPBX_SERVICE: "http://vpbx-vpbx-app-chart:9000"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: itg-app-secret
+type: Opaque
+data:
+  MONGO_USERNAME: {{.Values.mongodb.mongodbUsername | b64enc | quote}}
+  MONGO_PASSWORD: {{.Values.mongodb.mongodbPassword | b64enc | quote}}

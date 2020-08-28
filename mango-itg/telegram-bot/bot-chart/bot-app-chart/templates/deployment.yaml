@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "telegram-app-chart.fullname" . }}
+  labels:
+    {{- include "telegram-app-chart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "telegram-app-chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "telegram-app-chart.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/config.yaml") . | sha256sum }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          env:
+            - name: BOT_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "telegram-app-chart.fullname" . }}
+                  key: BOT_NAME
+            - name: ITG_SERVER_SERVICE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "telegram-app-chart.fullname" . }}
+                  key: ITG_SERVER_SERVICE
+          ports:
+            - name: web
+              containerPort: 80

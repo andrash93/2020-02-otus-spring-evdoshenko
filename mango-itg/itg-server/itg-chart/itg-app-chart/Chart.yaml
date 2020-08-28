@@ -1,0 +1,13 @@
+apiVersion: v2
+name: itg-app-chart
+description: A Helm chart for Kubernetes for itg-app
+type: application
+version: 0.1.0
+appVersion: v6
+dependencies:
+  - name: mongodb
+    version: 7.11.x
+    repository: https://charts.bitnami.com/bitnami
+    condition: mongodb.enabled
+    tags:
+      - itg-database
